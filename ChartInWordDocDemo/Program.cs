@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml.Packaging;
 
 namespace ChartInWordDocDemo;
 
@@ -12,11 +13,19 @@ public class Program
         memoryStream.CopyTo(File.Create("Output.docx"));
     }
 
-    public static void CreateDocument(Stream outputStream)
+    private static void CreateDocument(Stream outputStream)
     {
         using var document = WordprocessingDocument.CreateFromTemplate("Template.dotx");
-        //ChartCreator.CreateChart(document.MainDocumentPart);
+        CreateChart(document.MainDocumentPart);
         document.Clone(outputStream);
     }
 
+    private static void CreateChart(MainDocumentPart mainPart)
+    {
+        var chartPart = mainPart.AddNewPart<ChartPart>("rId110");
+        var chartSpace = new ChartSpace();
+        var chart = new DocumentFormat.OpenXml.Drawing.Chart();
+        chartSpace.Append(chart);
+        chartPart.ChartSpace = chartSpace;
+    }
 }
