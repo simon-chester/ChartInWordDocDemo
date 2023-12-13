@@ -16,7 +16,7 @@ public class Program
     private static void CreateDocument(Stream outputStream)
     {
         using var document = WordprocessingDocument.CreateFromTemplate("Template.dotx");
-        CreateChart(document.MainDocumentPart);
+        CreateChart(document.MainDocumentPart); // Commenting this line will make the code work
         document.Clone(outputStream);
     }
 
